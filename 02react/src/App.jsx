@@ -8,23 +8,41 @@ function App() {
   
    
     const addValue = () => {
-       console.log("clicked", counter);
+
+       if (counter  >= 20){
+         return false;
+        
+       }
+        else {
+           console.log("clicked", counter);
        counter = counter+1;
         setCounter(counter)
+        }
+       
 
     }
 
+     const removeValue = ()=> {
+       if (counter == 0){
+         return false;
+         
+       }
+        else{
+                   setCounter(counter  -1)
+
+        }
+     }
   return (
     <>
      
 
-    <h1>!!!!!!!!!!!!!!!!11
+    <h1>!!!!!!!!!!!!!!!!
 
     </h1>
      <h2> counter value is : {counter}</h2>
       <button onClick={addValue}>  Add  Value {counter}</button>
        <br />
-       <button> Remove Value {counter}</button> 
+       <button onClick={removeValue}> Remove Value {counter}</button> 
        <br />
         <p>footer: {counter}</p>
     </>
