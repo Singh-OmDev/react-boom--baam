@@ -20,12 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
 </Routes>
-/*
 
-
- pheley routes banao
- 
-*/
 
 
     </>
