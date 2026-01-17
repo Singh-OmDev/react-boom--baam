@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+ .post-card {
+
+   padding: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+ }
