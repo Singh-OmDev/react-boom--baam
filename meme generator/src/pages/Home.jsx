@@ -7,14 +7,16 @@ const Homepage = () => {
 
   useEffect(() => {
     getAllMemes().then((memes) => {
-      setData(memes); // ✅ store data
+      setData(memes.data.memes); 
     });
-  }, []); // ✅ dependency array
+  }, []); 
 
   return (
-    <div>
-      {data.map((meme, index) => (
-        <MemeCard key={index} meme={meme} />
+    <div className="row">
+      {data.map((el) => (
+
+        <MemeCard img={el.url} title={el.name}
+         />
       ))}
     </div>
   );

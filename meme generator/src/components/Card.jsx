@@ -1,22 +1,26 @@
-import React from 'react'
- import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import { useNavigate } from "react-router-dom";
 
-const  MemeCard  = (props) => {
+const MemeCard = (props) => {
+  const navigate = useNavigate(); // ✅ fixed
+
   return (
-
-
-          <Card style={{ width: '18rem' }}>
+    <Card style={{ width: "18rem", margin: "25px" }}>
       <Card.Img variant="top" src={props.img} />
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
-        
-        <Button variant="primary">edit</Button>
+
+        <Button
+          onClick={() => navigate(`/edit/${props.img}`)}
+          variant="primary"
+        >
+          Edit
+        </Button>
       </Card.Body>
     </Card>
-      
-    
-  )
-}
+  );
+};
 
-export default   MemeCard
+export default MemeCard;
