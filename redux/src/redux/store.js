@@ -7,7 +7,7 @@ import counterReducer from './features/searchSlice';
        reducer:{
 
 
-         counter:counterReducer
+        
        }
 
 
