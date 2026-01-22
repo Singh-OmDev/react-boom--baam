@@ -107,11 +107,14 @@ router.post(
                    username:user.username
             },
 
-process.env.JWT_SECRET,
+                 process.env.JWT_SECRET,
 
 
         )
 
+
+         res.cookie('token', token)
+                   res.send('logged in');
 
 
     }
