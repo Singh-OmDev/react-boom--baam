@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "ejs": "^4.0.1",
     "express": "^5.2.1",
