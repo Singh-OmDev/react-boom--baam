@@ -41,3 +41,7 @@ const { minLength, stringFormat, lowercase } = require('zod');
 
 
  })
+
+ const user = mongoose.model ('user', userSchema)
+  module.exports = user;
+  
