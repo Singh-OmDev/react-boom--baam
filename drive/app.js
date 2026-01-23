@@ -7,6 +7,8 @@ dotenv.config();
 const connectToDB = require('./config/db'); // ✅ FIXED PATH
 connectToDB();
 
+
+ const indexRouter = require('./routes/index.routes');
 const app = express();
 
 const userRouter = require('./routes/user.routes');
@@ -17,6 +19,7 @@ app.use(cookieParser ());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use ('/' , indexRouter)
 
 app.use('/user', userRouter);
 
