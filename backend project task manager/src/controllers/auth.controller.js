@@ -1,40 +1,38 @@
-import User from "../models/User.js";
-import { registerSchema } from "../validators/auth.validator.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-export const registerUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
-    const validationResult = registerSchema.safeParse(req.body);
+    const { email, password } = req.body;
 
-    if (!validationResult.success) {
-      return res.status(400).json({
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        errors: validationResult.error.errors,
+        message: "User not found",
       });
     }
 
-    const { username, email, password } = validationResult.data;
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-    const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
-    });
-
-    if (existingUser) {
-      return res.status(409).json({
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
         success: false,
-        message: "User already exists",
+        message: "Invalid credentials",
       });
     }
 
-    const user = await User.create({
-      username,
-      email,
-      password,
-    });
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
-      message: "User registered successfully",
-      userId: user._id,
+      message: "Login successful",
+      token,
     });
   } catch (error) {
     return res.status(500).json({
