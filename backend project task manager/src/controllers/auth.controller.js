@@ -1,19 +1,19 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
+import { registerSchema } from "../validators/auth.validator.js";
 
 export const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const validationResult = registerSchema.safeParse(req.body);
 
-    // ✅ Validate input
-    if (!username || !email || !password) {
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        errors: validationResult.error.errors,
       });
     }
 
-    // ✅ Check existing user
+    const { username, email, password } = validationResult.data;
+
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
@@ -25,14 +25,10 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    // ✅ Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // ✅ Create user
     const user = await User.create({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
 
     return res.status(201).json({
@@ -41,11 +37,9 @@ export const registerUser = async (req, res) => {
       userId: user._id,
     });
   } catch (error) {
-    console.error("REGISTER ERROR 👉", error);
-
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Server error",
     });
   }
 };
