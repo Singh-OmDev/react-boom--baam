@@ -1,16 +1,10 @@
 import express from "express";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
-// Middleware to parse JSON
 app.use(express.json());
 
-// Health check route
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Backend is running 🚀",
-  });
-});
+app.use("/api/auth", authRoutes);
 
 export default app;
