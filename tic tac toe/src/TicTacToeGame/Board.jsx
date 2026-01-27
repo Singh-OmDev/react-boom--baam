@@ -79,7 +79,7 @@ const Board = () => {
         onClick={resetGame}
         style={{ marginTop: "20px", padding: "8px 16px" }}
       >
-        Reset Game
+        Reset  game
       </button>
     </div>
   );
