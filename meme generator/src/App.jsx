@@ -1,23 +1,14 @@
-import React from 'react'
- import {Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import EditPage from "./pages/EditPage";
 
-  import "bootstrap/dist/css/bootstrap.min.css";
-
-   import Homepage from './pages/Home'
-
-
-
-const App = () => {
+function App() {
   return (
-    <div className='App'>
-       <h1> meme generator</h1>
-
-      <Routes>
-        <Route path='/' element={<Homepage/>}></Route>
-      </Routes>
-      
-    </div>
-  )
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/edit" element={<EditPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
