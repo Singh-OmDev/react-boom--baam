@@ -1,6 +1,24 @@
 import Task from "../models/Task.js";
 
 
+ 
+/* GET MY TASKS */
+export const getMyTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.userId }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      tasks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -25,21 +43,5 @@ export const createTask = async (req, res) => {
 
 
   
-/* GET MY TASKS */
-export const getMyTasks = async (req, res) => {
-  try {
-    const tasks = await Task.find({ user: req.userId }).sort({ createdAt: -1 });
-
-    return res.status(200).json({
-      success: true,
-      tasks,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
 
 };
