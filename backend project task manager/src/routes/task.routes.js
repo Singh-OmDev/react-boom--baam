@@ -5,5 +5,7 @@ import { createTask } from "../controllers/task.controller.js";
 const router = express.Router();
 
 router.post("/", authMiddleware, createTask);
+router.get("/", authMiddleware, getMyTasks);
+
 
 export default router;
