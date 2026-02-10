@@ -1,7 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-// ✅ Register User
+/* ================= REGISTER ================= */
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -27,7 +28,7 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       username,
       email,
-      password,
+      password, // hashed by mongoose pre-save hook
     });
 
     return res.status(201).json({
@@ -44,7 +45,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// ✅ Login User
+/* ================= LOGIN ================= */
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -57,7 +58,6 @@ export const loginUser = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -66,7 +66,6 @@ export const loginUser = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.status(401).json({
         success: false,
@@ -74,9 +73,16 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
     return res.status(200).json({
       success: true,
       message: "Login successful",
+      token,
     });
   } catch (error) {
     console.error("LOGIN ERROR 👉", error);
