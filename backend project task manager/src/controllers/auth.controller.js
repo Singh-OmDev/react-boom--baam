@@ -24,12 +24,10 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
 
     return res.status(201).json({
