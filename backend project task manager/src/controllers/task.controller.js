@@ -71,10 +71,25 @@ export const updateTask = async (req, res) => {
 /* GET MY TASKS */
 export const getMyTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.userId }).sort({ createdAt: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
+    const skip = (page - 1) * limit;
+
+    const tasks = await Task.find({ user: req.userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalTasks = await Task.countDocuments({
+      user: req.userId,
+    });
 
     return res.status(200).json({
       success: true,
+      page,
+      totalPages: Math.ceil(totalTasks / limit),
+      totalTasks,
       tasks,
     });
   } catch (error) {
@@ -84,6 +99,7 @@ export const getMyTasks = async (req, res) => {
     });
   }
 };
+
 
 
 export const createTask = async (req, res) => {
